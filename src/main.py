@@ -1,12 +1,13 @@
 from window import window
+from menu import Menu
 import pygame
 import sys
 
 
 # Redraws
 def redraw_menu():
-    # Draw background
-    win.fill((235, 237, 233))
+    # Draw menu
+    menu.draw(win)
 
     # Update display
     pygame.display.update()
@@ -37,6 +38,9 @@ if __name__ == "__main__":
     # Initialize window
     win = pygame.display.set_mode(window.rect.size)  # !!! TEMPORARY
     pygame.display.set_caption("Math Trainer")
+
+    # Initialize windows
+    menu = Menu()
     
     # Execute
     menu_loop()
