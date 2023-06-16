@@ -13,8 +13,41 @@ def redraw_menu():
     pygame.display.update()
 
 
+def redraw_game():
+    # Update display
+    pygame.display.update()
+
+
 # Loops
 def menu_loop():
+    # Loop
+    run = True
+    while run:
+        # Event loop
+        for event in pygame.event.get():
+            # Quit detection
+            if event.type == pygame.QUIT:
+                run = False
+
+            # Menu buttons' down detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # left-clicked has been uped
+                button_pressed = menu.buttons.button_down_detection()
+                if button_pressed:
+                    menu.buttons.reset_overdetection()
+                    game_loop(button_pressed)
+
+            # Menu buttons' over detection
+            if event.type == pygame.MOUSEMOTION:
+                menu.buttons.button_over_detection()
+
+        # Update display
+        redraw_menu()
+
+    pygame.quit()
+    sys.exit()
+
+
+def game_loop(game_type):
     # Loop
     run = True
     while run:
