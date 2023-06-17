@@ -1,5 +1,6 @@
 from window import window
 from menu import Menu
+from difficulty import Difficulty
 import pygame
 import sys
 
@@ -8,6 +9,14 @@ import sys
 def redraw_menu():
     # Draw menu
     menu.draw(win)
+
+    # Update display
+    pygame.display.update()
+
+
+def redraw_difficulty():
+    # Draw difficulty
+    difficulty.draw(win)
 
     # Update display
     pygame.display.update()
@@ -34,7 +43,7 @@ def menu_loop():
                 button_pressed = menu.buttons.button_down_detection()
                 if button_pressed:
                     menu.buttons.reset_overdetection()
-                    game_loop(button_pressed)
+                    difficulty_loop()
 
             # Menu buttons' over detection
             if event.type == pygame.MOUSEMOTION:
@@ -47,7 +56,24 @@ def menu_loop():
     sys.exit()
 
 
-def game_loop(game_type):
+def difficulty_loop():
+    # Loop
+    run = True
+    while run:
+        # Event loop
+        for event in pygame.event.get():
+            # Quit detection
+            if event.type == pygame.QUIT:
+                run = False
+
+        # Update display
+        redraw_difficulty()
+    
+    pygame.quit()
+    sys.exit()
+
+
+def game_loop(game_type, difficulty):
     # Loop
     run = True
     while run:
@@ -74,6 +100,7 @@ if __name__ == "__main__":
 
     # Initialize windows
     menu = Menu()
-    
+    difficulty = Difficulty()
+
     # Execute
     menu_loop()
