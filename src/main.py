@@ -43,7 +43,7 @@ def menu_loop():
                 button_pressed = menu.buttons.button_down_detection()
                 if button_pressed:
                     menu.buttons.reset_overdetection()
-                    difficulty_loop()
+                    difficulty_loop(button_pressed)
 
             # Menu buttons' over detection
             if event.type == pygame.MOUSEMOTION:
@@ -56,7 +56,9 @@ def menu_loop():
     sys.exit()
 
 
-def difficulty_loop():
+def difficulty_loop(game_type):
+    difficulty.title.init_subtitle(game_type)
+
     # Loop
     run = True
     while run:

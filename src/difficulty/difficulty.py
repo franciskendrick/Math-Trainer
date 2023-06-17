@@ -1,4 +1,5 @@
 from window import window
+from .title import Title
 import pygame
 import os
 
@@ -21,11 +22,14 @@ class Difficulty:
             ht // self.display_size_divider),
             pygame.SRCALPHA)
         
+        self.title = Title()
+        
     def draw(self, display):
         # Fill background
         self.display.fill((235, 237, 233))
 
         # Draw elements
+        self.title.draw(self.display)
 
         # Blit menu's display to original display
         resized_menu_display = pygame.transform.scale(
