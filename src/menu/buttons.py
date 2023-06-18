@@ -22,7 +22,8 @@ class Buttons:
         # Palette
         hover_palette = {
             (9, 10, 20): (9, 10, 20),
-            (199, 207, 204): (168, 181, 178)}
+            (199, 207, 204): (168, 181, 178)
+        }
         
         # Positions
         positions = {

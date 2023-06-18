@@ -61,3 +61,34 @@ class LevelButtons:
             img = hover_img if is_hovered else orig_img
 
             display.blit(img, rect)
+
+
+class BackButton:
+    def __init__(self, enlarge):
+        # Palette
+        hover_palette = {
+            (9, 10, 20): (9, 10, 20),
+            (199, 207, 204): (168, 181, 178)
+        }
+
+        # Button
+        image = clip_set_to_list_on_yaxis(spritesets[1])
+        hover_img =  palette_swap(image.convert(), hover_palette)
+        rect = pygame.Rect((51, 108), image.get_rect().size)
+        hitbox = pygame.Rect(
+                rect.x * enlarge, rect.y * enlarge,
+                rect.width * enlarge, rect.height * enlarge)
+
+        self.button = [
+            False,  # is hovered
+            image,  # original image
+            hover_img,  # hover image
+            rect,  # image rectangle
+            hitbox  # hitbox
+        ]
+
+    def draw(self, display):
+        is_hovered, orig_img, hover_img, rect, _ = self.button
+        img = hover_img if is_hovered else orig_img
+
+        display.blit(img, rect)

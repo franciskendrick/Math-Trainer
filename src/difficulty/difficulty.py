@@ -1,6 +1,6 @@
 from window import window
 from .title import Title
-from .buttons import LevelButtons
+from .buttons import LevelButtons, BackButton
 import pygame
 import os
 
@@ -25,6 +25,7 @@ class Difficulty:
         
         self.title = Title()
         self.lvl_buttons = LevelButtons(self.display_size_divider)
+        self.back_button = BackButton(self.display_size_divider)
         
     def draw(self, display):
         # Fill background
@@ -33,6 +34,7 @@ class Difficulty:
         # Draw elements
         self.title.draw(self.display)
         self.lvl_buttons.draw(self.display)
+        self.back_button.draw(self.display)
 
         # Blit menu's display to original display
         resized_menu_display = pygame.transform.scale(
