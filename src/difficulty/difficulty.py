@@ -1,5 +1,6 @@
 from window import window
 from .title import Title
+from .buttons import LevelButtons
 import pygame
 import os
 
@@ -23,6 +24,7 @@ class Difficulty:
             pygame.SRCALPHA)
         
         self.title = Title()
+        self.lvl_buttons = LevelButtons(self.display_size_divider)
         
     def draw(self, display):
         # Fill background
@@ -30,6 +32,7 @@ class Difficulty:
 
         # Draw elements
         self.title.draw(self.display)
+        self.lvl_buttons.draw(self.display)
 
         # Blit menu's display to original display
         resized_menu_display = pygame.transform.scale(
