@@ -68,6 +68,24 @@ def difficulty_loop(game_type):
             if event.type == pygame.QUIT:
                 run = False
 
+            # Difficulty buttons' down detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # left-clicked has been uped
+                # Level buttons
+                button_pressed = difficulty.lvl_buttons.button_down_detection()
+                if button_pressed:
+                    difficulty.lvl_buttons.reset_overdetection()
+                    game_loop(game_type, button_pressed)
+
+                # Back button
+                button_pressed = difficulty.back_button.button_down_detection()
+                if button_pressed:
+                    menu_loop()
+
+            # Difficulty buttons' over detection
+            if event.type == pygame.MOUSEMOTION:
+                difficulty.lvl_buttons.button_over_detection()  # level buttons
+                difficulty.back_button.button_over_detection()  # back button
+
         # Update display
         redraw_difficulty()
     
