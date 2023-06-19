@@ -58,6 +58,7 @@ def menu_loop():
 
 def difficulty_loop(game_type):
     difficulty.title.init_subtitle(game_type)
+    difficulty.lvl_buttons.init_lvlbuttons(game_type)
 
     # Loop
     run = True

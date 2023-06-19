@@ -19,19 +19,27 @@ class LevelButtons(BaseButtons):
     def __init__(self, enlarge):
         super().__init__()
 
-        # Images
+        self.enlarge = enlarge
+
+    def init_lvlbuttons(self, game_type):
         order = ["1", "2", "3"]
         images = clip_set_to_list_on_yaxis(spritesets[0])
-
-        # Positions
-        positions = {
-            "1": (43, 53),
-            "2": (43, 65),
-            "3": (43, 77)
-        }
+        if game_type in ["addition", "subtraction", "multiplication", "division"]:
+            positions = {
+                "1": (43, 53),
+                "2": (43, 65),
+                "3": (43, 77)
+            }
+        else:
+            order.pop(-1)
+            images.pop(-1)
+            positions = {
+                "1": (43, 59),
+                "2": (43, 71)
+            }
 
         # Buttons
-        self.init_buttons(enlarge, order, images, positions)
+        self.init_buttons(self.enlarge, order, images, positions)
 
 
 class BackButton(BaseButton):
