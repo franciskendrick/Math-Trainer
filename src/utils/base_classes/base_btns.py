@@ -1,4 +1,4 @@
-from .color_swap import palette_swap
+from utils.image_editors import palette_swap
 import pygame
 
 pygame.init()

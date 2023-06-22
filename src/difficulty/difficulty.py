@@ -1,27 +1,14 @@
-from window import window
+from utils import BaseMain
 from .title import Title
 from .buttons import LevelButtons, BackButton
 import pygame
-import os
 
 pygame.init()
-resources_path = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__), 
-        "..", "..", "resources", "menu"
-        )
-    )
 
 
-class Difficulty:
-    display_size_divider = 5
-    
+class Difficulty(BaseMain):
     def __init__(self):
-        wd, ht = window.rect.size
-        self.display = pygame.Surface(
-            (wd // self.display_size_divider,
-            ht // self.display_size_divider),
-            pygame.SRCALPHA)
+        super().__init__()
         
         self.title = Title()
         self.lvl_buttons = LevelButtons(self.display_size_divider)
@@ -29,7 +16,7 @@ class Difficulty:
         
     def draw(self, display):
         # Fill background
-        self.display.fill((235, 237, 233))
+        self.draw_background()
 
         # Draw elements
         self.title.draw(self.display)
@@ -37,7 +24,4 @@ class Difficulty:
         self.back_button.draw(self.display)
 
         # Blit menu's display to original display
-        resized_menu_display = pygame.transform.scale(
-            self.display, display.get_size())
-        display.blit(resized_menu_display, (0, 0))
- 
+        self.blit_to_display(display)

@@ -1,6 +1,7 @@
 from window import window
 from menu import Menu
 from difficulty import Difficulty
+from game import Game
 import pygame
 import sys
 
@@ -23,6 +24,9 @@ def redraw_difficulty():
 
 
 def redraw_game():
+    # Draw game
+    game.draw(win)
+
     # Update display
     pygame.display.update()
 
@@ -105,7 +109,7 @@ def game_loop(game_type, difficulty):
                 run = False
 
         # Update display
-        redraw_menu()
+        redraw_game()
 
     pygame.quit()
     sys.exit()
@@ -122,6 +126,7 @@ if __name__ == "__main__":
     # Initialize windows
     menu = Menu()
     difficulty = Difficulty()
+    game = Game()
 
     # Execute
     menu_loop()
