@@ -1,3 +1,4 @@
+from utils import NumberFont
 import pygame
 import random
 import os
@@ -11,14 +12,43 @@ resources_path = os.path.abspath(
     )
 
 
-class Question:
-    def __init__(self):
-        self.addition = Addition()
-        self.subtraction = Subtraction()
-        self.multiplication = Multiplication()
-        self.division = Division()
-        self.exponentiation = Exponentiation()
-        self.square_root = SquareRoot()
+class Question(NumberFont):
+    def __init__(self, game_type, difficulty):
+        super().__init__()
+
+        # Game type
+        gametype_switchcase = {
+            "addition": Addition,
+            "subtraction": Subtraction,
+            "multiplication": Multiplication,
+            "division": Division,
+            "exponentiation": Exponentiation,
+            "square_root": SquareRoot 
+        }
+
+        self.game_type = gametype_switchcase[game_type]()
+
+        # Difficulty
+        self.level = difficulty
+        try:
+            self.level_switchcase = {
+                "1": self.game_type.level_1,
+                "2": self.game_type.level_2,
+                "3": self.game_type.level_3
+            }
+        except AttributeError:
+            self.level_switchcase = {
+                "1": self.game_type.level_1,
+                "2": self.game_type.level_2,
+            }
+
+    def draw(self, display):  # !!! TEMPORARY 
+        x, y = self.question
+        self.render_font(display, f"{x:,}", (0, 0))
+        self.render_font(display, f"{y:,}", (50, 0))
+
+    def get_question(self):
+        self.question = self.level_switchcase[self.level]()
 
 
 # Problem Generators

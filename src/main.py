@@ -99,6 +99,9 @@ def difficulty_loop(game_type):
 
 
 def game_loop(game_type, difficulty):
+    game.init_question(game_type, difficulty)
+    game.question.get_question()
+
     # Loop
     run = True
     while run:
@@ -107,6 +110,10 @@ def game_loop(game_type, difficulty):
             # Quit detection
             if event.type == pygame.QUIT:
                 run = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:  # !!! TEMPORARY
+                    game.question.get_question()
 
         # Update display
         redraw_game()
