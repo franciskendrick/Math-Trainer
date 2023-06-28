@@ -1,4 +1,4 @@
-from utils import NumberFont
+from utils import BaseProblem
 import pygame
 import random
 import os
@@ -12,10 +12,8 @@ resources_path = os.path.abspath(
     )
 
 
-class Question(NumberFont):
+class Question:
     def __init__(self, game_type, difficulty):
-        super().__init__()
-
         # Game type
         gametype_switchcase = {
             "addition": Addition,
@@ -30,29 +28,48 @@ class Question(NumberFont):
 
         # Difficulty
         self.level = difficulty
-        try:
+        if game_type not in ["exponentiation", "square_root"]:
             self.level_switchcase = {
                 "1": self.game_type.level_1,
                 "2": self.game_type.level_2,
                 "3": self.game_type.level_3
             }
-        except AttributeError:
+        else:
             self.level_switchcase = {
                 "1": self.game_type.level_1,
                 "2": self.game_type.level_2,
             }
 
-    def draw(self, display):  # !!! TEMPORARY 
-        x, y = self.question
-        self.render_font(display, f"{x:,}", (0, 0))
-        self.render_font(display, f"{y:,}", (50, 0))
+    def draw(self, display):
+        self.game_type.draw(display, self.level, self.question)
 
     def get_question(self):
         self.question = self.level_switchcase[self.level]()
 
 
 # Problem Generators
-class Addition:
+class Addition(BaseProblem):
+    def __init__(self):
+        super().__init__()
+
+        # Symbol
+        self.init_symbol(0)
+
+        # Positions
+        self.positions = {  # x, y, symbol, line, answer
+            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
+            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
+            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+        }
+
+        # Maximum digits
+        self.max_digits = {
+            "1": (1, 1),
+            "2": (2, 2),
+            "3": (3, 3)
+        }
+
+    # Question generator
     def level_1(self):
         x = random.randint(0, 9)
         y = random.randint(0, 9)
@@ -67,12 +84,33 @@ class Addition:
         x = random.randint(100, 999)
         y = random.randint(100, 999)
         return x, y
+    
 
+class Subtraction(BaseProblem):
+    def __init__(self):
+        super().__init__()
 
-class Subtraction:
+        # Symbol
+        self.init_symbol(1)
+
+        # Positions
+        self.positions = {  # x, y, symbol, line, answer
+            "1": ((48, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
+            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
+            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+        }
+
+        # Maximum digits
+        self.max_digits = {
+            "1": (2, 1),
+            "2": (2, 2),
+            "3": (3, 3)
+        }
+
+    # Question generator
     def level_1(self):
         x = random.randint(0, 18)
-        y = random.randint(0, x)
+        y = random.randint(0, 9)
         return x, y
 
     def level_2(self):
@@ -84,9 +122,30 @@ class Subtraction:
         x = random.randint(100, 999)
         y = random.randint(100, x)
         return x, y
+    
 
+class Multiplication(BaseProblem):
+    def __init__(self):
+        super().__init__()
 
-class Multiplication:
+        # Symbol
+        self.init_symbol(2)
+
+        # Positions
+        self.positions = {  # x, y, symbol, line, answer
+            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
+            "2": ((57, 30), (75, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
+            "3": ((48, 30), (84, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+        }
+
+        # Maximum digits
+        self.max_digits = {
+            "1": (1, 1),
+            "2": (2, 1),
+            "3": (3, 1)
+        }
+
+    # Question generator
     def level_1(self):
         x = random.randint(0, 9)
         y = random.randint(0, 9)
@@ -101,9 +160,24 @@ class Multiplication:
         x = random.randint(100, 999)
         y = random.randint(0, 9)
         return x, y
+    
 
+class Division(BaseProblem):
+    def __init__(self):
+        # Symbol
+        self.init_symbol(3)
 
-class Division:
+        # Positions (x, y, symbol, answer)
+        self.positions = ((49, 67), (19, 67), (40, 61), (46, 40))
+
+        # Maximum digits
+        self.max_digits = {
+            "1": (2, 1),
+            "2": (3, 1),
+            "3": (3, 1)
+        }
+
+    # Question generator
     def level_1(self):
         x = random.randint(0, 99)
         divisors = self.get_divisors(x)
@@ -133,7 +207,7 @@ class Division:
             if x % divisor == 0:  # divisible by divisor
                 new_divisors.append(divisor)
         
-        return divisors
+        return new_divisors
 
     def get_weights(self, divisors):
         num_divisors = len(divisors)
@@ -147,9 +221,19 @@ class Division:
             weights = [100]
 
         return weights
+    
+    # Draw
+    def draw(self, display, _, question):
+        x, y = question
+        x_pos, y_pos, symbol_pos, ans_pos = self.positions
+
+        self.render_font(display, str(x), x_pos, 3)  # x
+        self.render_font(display, str(y), y_pos, 3)  # y
+        display.blit(self.symbol_img, symbol_pos)  # symbol
 
 
 class Exponentiation:
+    # Question generator
     def level_1(self):
         x = random.randint(0, 9)
         [y] = random.choices([0, 1, 2, 3], [10, 10, 40, 40])  # discourage 0 and 1
@@ -167,6 +251,7 @@ class Exponentiation:
 
 
 class SquareRoot:
+    # Question generator
     def level_1(self):
         squares = [i ** 2 for i in range(1, 10)]
         return random.choice(squares)
