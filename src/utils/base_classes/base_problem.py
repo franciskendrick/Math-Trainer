@@ -1,5 +1,4 @@
 from utils.font import NumberFont
-from utils.image_editors import clip_set_to_list_on_xaxis
 import pygame
 import os
 
@@ -11,34 +10,29 @@ resources_path = os.path.abspath(
         )
     )
 
-# Problem Generators
-attachments = clip_set_to_list_on_xaxis(
-    pygame.image.load(f"{resources_path}/attachments.png"))
-
 
 class BaseProblem(NumberFont):
-    def init_symbol(self, idx):
-        super().__init__()
-
-        # Symbol image
-        image = attachments[idx]
-        wd, ht = image.get_size()
-        self.symbol_img = pygame.transform.scale(image, (wd * 3, ht * 3))
-
-    # Draw
-    def draw(self, display, level, question):
+    def draw_div(self, display, _, question):  # draw division
         x, y = question
-        x_pos, y_pos, symbol_pos, line_pos, ans_pos = self.positions[level]
+        x_pos, y_pos, symbol_pos, ans_pos = self.positions
 
-        self.render_font(display, self.format_num(x, level, 0), x_pos, 3)  # x
-        self.render_font(display, self.format_num(y, level, 1), y_pos, 3)  # y
+        # Draw
+        self.render_font(display, str(x), x_pos, 3)  # x
+        self.render_font(display, str(y), y_pos, 3)  # y
         display.blit(self.symbol_img, symbol_pos)  # symbol
-        pygame.draw.line(display, (9, 10, 20), *line_pos, 3)  # line
 
-    # Functions
-    def format_num(self, num, level, idx):
-        max_digit = self.max_digits[level][idx]
-        x = [" " for _ in range(max_digit - len(str(num)))] + [str(num)]
-        x = "".join(x)
+    def draw_exp(self, display, _, question):  # draw exponentiation
+        x, y = question
 
-        return x
+        if len(x) >= 2:  # x is 2 digit
+            x_pos, y_pos, symbol_pos, ans_pos = self.positions["2"]
+            self.render_font(display, self.format_num(x, 2), x_pos, 4)  # x
+        else:  # x is 1 digit
+            x_pos, y_pos, symbol_pos, ans_pos = self.positions["1"]
+            self.render_font(display, self.format_num(x, 1), x_pos, 4)  # x
+
+        self.render_font(display, str(y), y_pos, 2)  # y
+        display.blit(self.symbol_img, symbol_pos)  # symbol
+
+    def draw_sqr(self):  # Draw square root
+        pass

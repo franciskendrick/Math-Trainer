@@ -1,4 +1,4 @@
-from utils import BaseProblem
+from utils import NumberFont, clip_set_to_list_on_xaxis
 import pygame
 import random
 import os
@@ -48,18 +48,54 @@ class Question:
 
 
 # Problem Generators
-class Addition(BaseProblem):
+attachments = clip_set_to_list_on_xaxis(
+    pygame.image.load(f"{resources_path}/attachments.png"))
+
+
+def get_symbol(idx):
+    # Symbol image
+    image = attachments[idx]
+    wd, ht = image.get_size()
+    symbol_img = pygame.transform.scale(image, (wd * 3, ht * 3))
+
+    return symbol_img
+
+
+def format_num(num, max_digit):
+    x = [" " for _ in range(max_digit - len(str(num)))] + [str(num)]
+    x = "".join(x)
+
+    return x
+
+
+class Draw(NumberFont):
+    def draw(self, display, level, question):  # draws addition, subtraction, multiplication
+        x, y = question
+        x_pos, y_pos, symbol_pos, line_pos, ans_pos = self.positions[level]
+
+        # Get x and y's string format
+        x_str = format_num(x, self.max_digits[level][0])
+        y_str = format_num(y, self.max_digits[level][1])
+
+        # Draw
+        self.render_font(display, x_str, x_pos, 3)  # x
+        self.render_font(display, y_str, y_pos, 3)  # y
+        display.blit(self.symbol_img, symbol_pos)  # symbol
+        pygame.draw.line(display, (9, 10, 20), *line_pos, 3)  # line
+
+
+class Addition(Draw):
     def __init__(self):
         super().__init__()
 
         # Symbol
-        self.init_symbol(0)
+        self.symbol_img = get_symbol(0)
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
-            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
-            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
+            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
+            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
         }
 
         # Maximum digits
@@ -86,18 +122,18 @@ class Addition(BaseProblem):
         return x, y
     
 
-class Subtraction(BaseProblem):
+class Subtraction(Draw):
     def __init__(self):
         super().__init__()
 
         # Symbol
-        self.init_symbol(1)
+        self.symbol_img = get_symbol(1)
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((48, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
-            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
-            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+            "1": ((48, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
+            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
+            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
         }
 
         # Maximum digits
@@ -124,18 +160,18 @@ class Subtraction(BaseProblem):
         return x, y
     
 
-class Multiplication(BaseProblem):
+class Multiplication(Draw):
     def __init__(self):
         super().__init__()
 
         # Symbol
-        self.init_symbol(2)
+        self.symbol_img = get_symbol(2)
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),
-            "2": ((57, 30), (75, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),
-            "3": ((48, 30), (84, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))
+            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
+            "2": ((57, 30), (75, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
+            "3": ((48, 30), (84, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
         }
 
         # Maximum digits
@@ -162,20 +198,15 @@ class Multiplication(BaseProblem):
         return x, y
     
 
-class Division(BaseProblem):
+class Division(NumberFont):
     def __init__(self):
+        super().__init__()
+
         # Symbol
-        self.init_symbol(3)
+        self.symbol_img = get_symbol(3)
 
         # Positions (x, y, symbol, answer)
         self.positions = ((49, 67), (19, 67), (40, 61), (46, 40))
-
-        # Maximum digits
-        self.max_digits = {
-            "1": (2, 1),
-            "2": (3, 1),
-            "3": (3, 1)
-        }
 
     # Question generator
     def level_1(self):
@@ -227,12 +258,28 @@ class Division(BaseProblem):
         x, y = question
         x_pos, y_pos, symbol_pos, ans_pos = self.positions
 
+        # Draw
         self.render_font(display, str(x), x_pos, 3)  # x
         self.render_font(display, str(y), y_pos, 3)  # y
         display.blit(self.symbol_img, symbol_pos)  # symbol
 
 
-class Exponentiation:
+class Exponentiation(NumberFont):
+    def __init__(self):
+        super().__init__()
+
+        # Positions
+        self.positions = {  # x, y, answer
+            "1": ((48, 47), (70, 39), (41, 79)),  # x is 1 digit
+            "2": ((36, 47), (82, 39), (41, 79))  # x is 2 digit
+        }
+
+        # Maximum digits
+        self.max_digits = {
+            "1": (1, 1),
+            "2": (2, 1),
+        }
+
     # Question generator
     def level_1(self):
         x = random.randint(0, 9)
@@ -249,8 +296,24 @@ class Exponentiation:
 
         return x, y
 
+    # Draw
+    def draw(self, display, _, question):
+        x, y = question
+
+        if len(str(x)) >= 2:  # x is 2 digit
+            x_pos, y_pos, ans_pos = self.positions["2"]
+            self.render_font(display, format_num(x, 2), x_pos, 4)  # x
+        else:  # x is 1 digit
+            x_pos, y_pos, ans_pos = self.positions["1"]
+            self.render_font(display, format_num(x, 1), x_pos, 4)  # x
+
+        self.render_font(display, str(y), y_pos, 2)  # y
+
 
 class SquareRoot:
+    def __init__(self):
+        pass
+
     # Question generator
     def level_1(self):
         squares = [i ** 2 for i in range(1, 10)]
@@ -259,3 +322,7 @@ class SquareRoot:
     def level_2(self):
         squares = [i ** 2 for i in range(10, 100)]
         return random.choice(squares)
+    
+    # Draw
+    def draw(self, display, _, question):
+        pass
