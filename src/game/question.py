@@ -270,14 +270,8 @@ class Exponentiation(NumberFont):
 
         # Positions
         self.positions = {  # x, y, answer
-            "1": ((48, 47), (70, 39), (41, 79)),  # x is 1 digit
-            "2": ((36, 47), (82, 39), (41, 79))  # x is 2 digit
-        }
-
-        # Maximum digits
-        self.max_digits = {
-            "1": (1, 1),
-            "2": (2, 1),
+            1: ((48, 47), (70, 39), (41, 79)),  # x is 1 digit
+            2: ((36, 47), (82, 39), (41, 79))  # x is 2 digit
         }
 
     # Question generator
@@ -300,19 +294,30 @@ class Exponentiation(NumberFont):
     def draw(self, display, _, question):
         x, y = question
 
-        if len(str(x)) >= 2:  # x is 2 digit
-            x_pos, y_pos, ans_pos = self.positions["2"]
-            self.render_font(display, format_num(x, 2), x_pos, 4)  # x
-        else:  # x is 1 digit
-            x_pos, y_pos, ans_pos = self.positions["1"]
-            self.render_font(display, format_num(x, 1), x_pos, 4)  # x
+        # Get x and y's string format
+        x_str = str(x)
+        y_str = str(y)
 
-        self.render_font(display, str(y), y_pos, 2)  # y
+        # Draw
+        x_pos, y_pos, ans_pos = self.positions[len(x_str)]
+        self.render_font(display, format_num(x, len(x_str)), x_pos, 4)  # x
+        self.render_font(display, y_str, y_pos, 2)  # y
 
 
-class SquareRoot:
+class SquareRoot(NumberFont):
     def __init__(self):
-        pass
+        super().__init__()
+
+        # Symbol
+        self.symbol_img = get_symbol(4)
+
+        # Positions
+        self.positions = {  # x, symbol, line, answer
+            1: ((63, 46), (45, 40), ((57, 41), (83, 41)), (41, 76)),  # digit 1
+            2: ((54, 46), (36, 40), ((48, 41), (92, 41)), (41, 76)),  # digit 2
+            3: ((45, 46), (27, 40), ((39, 41), (101, 41)), (41, 76)),  # digit 3
+            4: ((36, 46), (18, 40), ((30, 41), (110, 41)), (41, 76))  # digit 4
+        }
 
     # Question generator
     def level_1(self):
@@ -325,4 +330,10 @@ class SquareRoot:
     
     # Draw
     def draw(self, display, _, question):
-        pass
+        x_str = str(question)
+        x_pos, symbol_pos, line_pos, ans_pos = self.positions[len(x_str)]
+
+        # Draw
+        self.render_font(display, x_str, x_pos, 3)  # x
+        display.blit(self.symbol_img, symbol_pos)  # symbol
+        pygame.draw.line(display, (9, 10, 20), *line_pos, 3)  # line
