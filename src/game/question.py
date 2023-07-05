@@ -45,6 +45,7 @@ class Question:
 
     def get_question(self):
         self.question = self.level_switchcase[self.level]()
+        print(self.question)
 
 
 # Problem Generators
@@ -319,10 +320,21 @@ class SquareRoot(NumberFont):
             4: ((36, 46), (18, 40), ((30, 41), (110, 41)), (41, 76))  # digit 4
         }
 
+        self.used_questions = []
+
     # Question generator
     def level_1(self):
         squares = [i ** 2 for i in range(1, 10)]
-        return random.choice(squares)
+        x = random.choice(squares)
+
+        if x in self.used_questions:
+            self.level_1()
+        else:
+            if len(self.used_questions) >= 5:
+                self.used_questions.pop(-1)
+            self.used_questions.insert(0, x)
+
+        return x
 
     def level_2(self):
         squares = [i ** 2 for i in range(10, 100)]
