@@ -7,9 +7,11 @@ pygame.init()
 
 
 class Menu(BaseMain):
+    display_size_divider = 5
+
     def __init__(self):
         super().__init__()
-    
+
         self.title = Title()
         self.buttons = Buttons(self.display_size_divider)
 

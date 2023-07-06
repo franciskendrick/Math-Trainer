@@ -45,7 +45,6 @@ class Question:
 
     def get_question(self):
         self.question = self.level_switchcase[self.level]()
-        print(self.question)
 
 
 # Problem Generators
@@ -57,7 +56,7 @@ def get_symbol(idx):
     # Symbol image
     image = attachments[idx]
     wd, ht = image.get_size()
-    symbol_img = pygame.transform.scale(image, (wd * 3, ht * 3))
+    symbol_img = pygame.transform.scale(image, (wd * 6, ht * 6))
 
     return symbol_img
 
@@ -79,10 +78,10 @@ class Draw(NumberFont):
         y_str = format_num(y, self.max_digits[level][1])
 
         # Draw
-        self.render_font(display, x_str, x_pos, 3)  # x
-        self.render_font(display, y_str, y_pos, 3)  # y
+        self.render_font(display, x_str, x_pos, 6)  # x
+        self.render_font(display, y_str, y_pos, 6)  # y
         display.blit(self.symbol_img, symbol_pos)  # symbol
-        pygame.draw.line(display, (9, 10, 20), *line_pos, 3)  # line
+        pygame.draw.line(display, (9, 10, 20), *line_pos, 6)  # line
 
 
 class Addition(Draw):
@@ -94,9 +93,9 @@ class Addition(Draw):
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
-            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
-            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
+            "1": ((132, 60), (132, 108), (102, 120), ((84, 152), (172, 152)), (96, 162)),  # level 1
+            "2": ((114, 60), (114, 108), (84, 120), ((66, 152), (190, 152)), (78, 162)),  # level 2
+            "3": ((96, 60), (96, 108), (60, 120), ((48, 152), (208, 152)), (60, 162))  # level 3
         }
 
         # Maximum digits
@@ -132,9 +131,9 @@ class Subtraction(Draw):
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((48, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
-            "2": ((57, 30), (57, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
-            "3": ((48, 30), (48, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
+            "1": ((96, 60), (132, 108), (102, 120), ((84, 152), (172, 152)), (96, 162)),  # level 1
+            "2": ((114, 60), (114, 108), (84, 120), ((66, 152), (190, 152)), (78, 162)),  # level 2
+            "3": ((96, 60), (96, 108), (60, 120), ((48, 152), (208, 152)), (60, 162))  # level 3
         }
 
         # Maximum digits
@@ -170,9 +169,9 @@ class Multiplication(Draw):
 
         # Positions
         self.positions = {  # x, y, symbol, line, answer
-            "1": ((66, 30), (66, 54), (51, 60), ((42, 76), (86, 76)), (48, 81)),  # level 1
-            "2": ((57, 30), (75, 54), (42, 60), ((33, 76), (95, 76)), (39, 81)),  # level 2
-            "3": ((48, 30), (84, 54), (30, 60), ((24, 76), (104, 76)), (30, 81))  # level 3
+            '1': [(132, 60), (132, 108), (102, 120), [(84, 152), (172, 152)], (96, 162)],  # level 1
+            '2': [(114, 60), (150, 108), (84, 120), [(66, 152), (190, 152)], (78, 162)],  # level 2
+            '3': [(96, 60), (168, 108), (60, 120), [(48, 152), (208, 152)], (60, 162)]  # level 3
         }
 
         # Maximum digits
@@ -190,12 +189,12 @@ class Multiplication(Draw):
 
     def level_2(self):
         x = random.randint(10, 99)
-        y = random.randint(0, 9)
+        y = random.randint(1, 9)
         return x, y
 
     def level_3(self):
         x = random.randint(100, 999)
-        y = random.randint(0, 9)
+        y = random.randint(2, 9)
         return x, y
     
 
@@ -207,7 +206,7 @@ class Division(NumberFont):
         self.symbol_img = get_symbol(3)
 
         # Positions (x, y, symbol, answer)
-        self.positions = ((49, 67), (19, 67), (40, 61), (46, 40))
+        self.positions = ((98, 134), (38, 134), (80, 122), (92, 80))
 
     # Question generator
     def level_1(self):
@@ -260,8 +259,8 @@ class Division(NumberFont):
         x_pos, y_pos, symbol_pos, ans_pos = self.positions
 
         # Draw
-        self.render_font(display, str(x), x_pos, 3)  # x
-        self.render_font(display, str(y), y_pos, 3)  # y
+        self.render_font(display, str(x), x_pos, 6)  # x
+        self.render_font(display, str(y), y_pos, 6)  # y
         display.blit(self.symbol_img, symbol_pos)  # symbol
 
 
@@ -271,8 +270,8 @@ class Exponentiation(NumberFont):
 
         # Positions
         self.positions = {  # x, y, answer
-            1: ((48, 47), (70, 39), (41, 79)),  # x is 1 digit
-            2: ((36, 47), (82, 39), (41, 79))  # x is 2 digit
+            1: ((96, 94), (140, 78), (82, 158)),  # x is 1 digit
+            2: ((72, 94), (164, 78), (82, 158))  # x is 2 digit
         }
 
     # Question generator
@@ -301,8 +300,8 @@ class Exponentiation(NumberFont):
 
         # Draw
         x_pos, y_pos, ans_pos = self.positions[len(x_str)]
-        self.render_font(display, format_num(x, len(x_str)), x_pos, 4)  # x
-        self.render_font(display, y_str, y_pos, 2)  # y
+        self.render_font(display, format_num(x, len(x_str)), x_pos, 8)  # x
+        self.render_font(display, y_str, y_pos, 4)  # y
 
 
 class SquareRoot(NumberFont):
@@ -314,10 +313,10 @@ class SquareRoot(NumberFont):
 
         # Positions
         self.positions = {  # x, symbol, line, answer
-            1: ((63, 46), (45, 40), ((57, 41), (83, 41)), (41, 76)),  # digit 1
-            2: ((54, 46), (36, 40), ((48, 41), (92, 41)), (41, 76)),  # digit 2
-            3: ((45, 46), (27, 40), ((39, 41), (101, 41)), (41, 76)),  # digit 3
-            4: ((36, 46), (18, 40), ((30, 41), (110, 41)), (41, 76))  # digit 4
+            1: ((126, 92), (90, 80), ((114, 82), (166, 82)), (82, 152)),  # digit 1
+            2: ((108, 92), (72, 80), ((96, 82), (184, 82)), (82, 152)),  # digit 2
+            3: ((90, 92), (54, 80), ((78, 82), (202, 82)), (82, 152)),  # digit 3
+            4: ((72, 92), (36, 80), ((60, 82), (220, 82)), (82, 152))  # digit 4
         }
 
         self.used_questions = []
@@ -346,6 +345,6 @@ class SquareRoot(NumberFont):
         x_pos, symbol_pos, line_pos, ans_pos = self.positions[len(x_str)]
 
         # Draw
-        self.render_font(display, x_str, x_pos, 3)  # x
+        self.render_font(display, x_str, x_pos, 6)  # x
         display.blit(self.symbol_img, symbol_pos)  # symbol
-        pygame.draw.line(display, (9, 10, 20), *line_pos, 3)  # line
+        pygame.draw.line(display, (9, 10, 20), *line_pos, 6)  # line

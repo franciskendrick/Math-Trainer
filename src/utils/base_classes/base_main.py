@@ -5,8 +5,6 @@ pygame.init()
 
 
 class BaseMain:
-    display_size_divider = 5
-
     def __init__(self):
         wd, ht = window.rect.size
         self.display = pygame.Surface(

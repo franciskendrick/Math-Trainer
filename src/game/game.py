@@ -1,16 +1,20 @@
 from utils import BaseMain
 from .question import Question
+from .titles import Titles
 import pygame
 
 pygame.init()
 
 
 class Game(BaseMain):
+    display_size_divider = 2.5
+
     def __init__(self):
         super().__init__()
 
-    def init_question(self, game_type, difficulty):
+    def init(self, game_type, difficulty):
         self.question = Question(game_type, difficulty)
+        self.titles = Titles(game_type, difficulty)
         
     def draw(self, display):
         # Fill background
@@ -18,6 +22,7 @@ class Game(BaseMain):
 
         # Draw elements
         self.question.draw(self.display)
+        self.titles.draw(self.display)
 
         # Blit menu's display to original display
         self.blit_to_display(display)

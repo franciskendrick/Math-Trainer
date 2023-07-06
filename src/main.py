@@ -99,7 +99,7 @@ def difficulty_loop(game_type):
 
 
 def game_loop(game_type, difficulty):
-    game.init_question(game_type, difficulty)
+    game.init(game_type, difficulty)
     game.question.get_question()
 
     # Loop
