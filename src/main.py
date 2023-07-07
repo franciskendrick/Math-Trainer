@@ -115,6 +115,9 @@ def game_loop(game_type, difficulty):
                 if event.key == pygame.K_RIGHT:  # !!! TEMPORARY
                     game.question.get_question()
 
+        # Update
+        game.timer.update_countdown()
+
         # Update display
         redraw_game()
 

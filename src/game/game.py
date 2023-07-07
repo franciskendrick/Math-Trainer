@@ -1,6 +1,7 @@
 from utils import BaseMain
 from .question import Question
 from .titles import Titles
+from .timer import Timer
 import pygame
 
 pygame.init()
@@ -15,6 +16,7 @@ class Game(BaseMain):
     def init(self, game_type, difficulty):
         self.question = Question(game_type, difficulty)
         self.titles = Titles(game_type, difficulty)
+        self.timer = Timer()
         
     def draw(self, display):
         # Fill background
@@ -23,6 +25,7 @@ class Game(BaseMain):
         # Draw elements
         self.question.draw(self.display)
         self.titles.draw(self.display)
+        self.timer.draw(self.display)
 
         # Blit menu's display to original display
         self.blit_to_display(display)
