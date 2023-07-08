@@ -2,6 +2,8 @@ from utils import NumberFont
 import pygame
 import time
 
+pygame.init()
+
 
 class Timer(NumberFont):
     def __init__(self):
@@ -17,9 +19,9 @@ class Timer(NumberFont):
         # Timer
         self.time_remaining = 300  # seconds (5 mins)
         self.delay = 1000  # milliseconds
-        self.time = "5:00"
+        self.time_text = "5:00"
 
-        self.timer_pos = (110, 4)
+        self.time_pos = (110, 4)
 
         self.last_count = time.perf_counter()
 
@@ -27,7 +29,7 @@ class Timer(NumberFont):
         for (start_pos, end_pos) in self.box_positions:
             pygame.draw.line(display, (9, 10, 20), start_pos, end_pos, 2)
 
-        self.render_font(display, self.time, self.timer_pos, 2)
+        self.render_font(display, self.time_text, self.time_pos, 2)
 
     def update_countdown(self):
         dt = time.perf_counter() - self.last_count
@@ -37,4 +39,4 @@ class Timer(NumberFont):
 
             mins, secs = divmod(self.time_remaining, 60)
 
-            self.time = "{:1d}:{:02d}".format(mins, secs)
+            self.time_text = "{:1d}:{:02d}".format(mins, secs)

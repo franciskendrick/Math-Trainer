@@ -52,9 +52,3 @@ class BackButton(BaseButton):
 
         # Button
         self.init_button(enlarge, image, position)
-
-    def draw(self, display):
-        is_hovered, orig_img, hover_img, rect, _ = self.button
-        img = hover_img if is_hovered else orig_img
-
-        display.blit(img, rect)

@@ -5,7 +5,8 @@ pygame.init()
 
 hover_palette = {
     (9, 10, 20): (9, 10, 20),
-    (199, 207, 204): (168, 181, 178)
+    (199, 207, 204): (168, 181, 178),
+    (235, 237, 233): (199, 207, 204)
 }
 
 
@@ -97,7 +98,7 @@ class BaseButton:
 
     def button_over_detection(self):
         *_, hitbox = self.button
-            
+
         mouse_pos = pygame.mouse.get_pos()
         self.button[0] = True if hitbox.collidepoint(mouse_pos) else False
 
