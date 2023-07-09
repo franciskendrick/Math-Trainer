@@ -1,4 +1,4 @@
-from utils import BaseButton, palette_swap
+from utils import BaseButton
 import pygame
 import os
 

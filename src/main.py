@@ -127,8 +127,32 @@ def game_loop(game_type, difficulty):
 
             # Pause's over detection
             if event.type == pygame.MOUSEMOTION:
-                # game.pause.button_over_detection()
                 game.pause.button_over_detection()
+
+            # Input's key detection
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    game.input.update_text("BS")
+                if event.key == pygame.K_0 or event.key == pygame.K_KP_0:
+                    game.input.update_text("0")
+                if event.key == pygame.K_1 or event.key == pygame.K_KP_1:
+                    game.input.update_text("1")
+                if event.key == pygame.K_2 or event.key == pygame.K_KP_2:
+                    game.input.update_text("2")
+                if event.key == pygame.K_3 or event.key == pygame.K_KP_3:
+                    game.input.update_text("3")
+                if event.key == pygame.K_4 or event.key == pygame.K_KP_4:
+                    game.input.update_text("4")
+                if event.key == pygame.K_5 or event.key == pygame.K_KP_5:
+                    game.input.update_text("5")
+                if event.key == pygame.K_6 or event.key == pygame.K_KP_6:
+                    game.input.update_text("6")
+                if event.key == pygame.K_7 or event.key == pygame.K_KP_7:
+                    game.input.update_text("7")
+                if event.key == pygame.K_8 or event.key == pygame.K_KP_8:
+                    game.input.update_text("8")
+                if event.key == pygame.K_9 or event.key == pygame.K_KP_9:
+                    game.input.update_text("9")
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:  # !!! TEMPORARY

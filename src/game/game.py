@@ -3,6 +3,7 @@ from .question import Question
 from .titles import Titles
 from .timer import Timer
 from .pause import Pause
+from .input import Input
 import pygame
 
 pygame.init()
@@ -20,6 +21,7 @@ class Game(BaseMain):
         self.question = Question(game_type, difficulty)
         self.titles = Titles(game_type, difficulty)
         self.timer = Timer()
+        self.input = Input(game_type, difficulty)
         
     def draw(self, display):
         # Fill background
@@ -30,6 +32,7 @@ class Game(BaseMain):
         self.titles.draw(self.display)
         self.timer.draw(self.display)
         self.pause.draw(self.display)
+        self.input.draw(self.display)
 
         # Blit menu's display to original display
         self.blit_to_display(display)
