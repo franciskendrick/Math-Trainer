@@ -154,6 +154,10 @@ def game_loop(game_type, difficulty):
                 if event.key == pygame.K_9 or event.key == pygame.K_KP_9:
                     game.input.update_text("9")
 
+                if event.key == pygame.K_SPACE:
+                    game.input.on_left = not game.input.on_left
+                    game.inputappend_title.on_left = not game.inputappend_title.on_left
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:  # !!! TEMPORARY
                     game.question.get_question()

@@ -1,4 +1,4 @@
-from utils import separate_sets_from_yaxis, clip_set_to_list_on_yaxis
+from utils import separate_sets_from_yaxis, clip_set_to_list_on_xaxis, clip_set_to_list_on_yaxis
 import pygame
 import os
 
@@ -24,12 +24,13 @@ level_switchcase = {
     "3": 2
 }
 
+spritesets = separate_sets_from_yaxis(
+    pygame.image.load(f"{resources_path}/titles.png"))
 
-class Titles:
+
+class GameTypeTitle:
     def __init__(self, game_type, difficulty):
         # Images
-        spritesets = separate_sets_from_yaxis(
-            pygame.image.load(f"{resources_path}/titles.png"))
         self.type_imgs = clip_set_to_list_on_yaxis(spritesets[0])
         self.lvl_imgs = clip_set_to_list_on_yaxis(spritesets[1])
 
@@ -46,3 +47,26 @@ class Titles:
     def draw(self, display):
         display.blit(self.type_imgs[self.type_idx], self.positions["type"])
         display.blit(self.lvl_imgs[self.lvl_idx], self.positions["level"])
+
+
+class InputAppendTitle:
+    def __init__(self):
+        # Images
+        order = ["left", "right"]
+        self.images = {}
+        for image, name in zip(clip_set_to_list_on_xaxis(spritesets[2]), order):
+            wd, ht = image.get_size()
+            self.images[name] = pygame.transform.scale(image, (wd * 2, ht * 2))
+
+        # Positions
+        self.positions = {
+            "left": (55, 5),
+            "right": (47, 5)
+        }
+
+        # Type
+        self.on_left = None
+
+    def draw(self, display):
+        key = "left" if self.on_left else "right"
+        display.blit(self.images[key], self.positions[key])
