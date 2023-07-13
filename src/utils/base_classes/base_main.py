@@ -12,8 +12,8 @@ class BaseMain:
             ht // self.display_size_divider),
             pygame.SRCALPHA)
 
-    def draw_background(self):
-        self.display.fill((235, 237, 233))
+    def draw_background(self, bgcolor=(235, 237, 233)):
+        self.display.fill(bgcolor)
 
     def blit_to_display(self, display):
         resized_menu_display = pygame.transform.scale(

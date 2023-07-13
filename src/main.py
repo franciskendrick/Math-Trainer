@@ -131,6 +131,7 @@ def game_loop(game_type, difficulty):
 
             # Input's key detection
             if event.type == pygame.KEYDOWN:
+                # Appending/popping input's text list
                 if event.key == pygame.K_BACKSPACE:
                     game.input.update_text("BS")
                 if event.key == pygame.K_0 or event.key == pygame.K_KP_0:
@@ -154,16 +155,28 @@ def game_loop(game_type, difficulty):
                 if event.key == pygame.K_9 or event.key == pygame.K_KP_9:
                     game.input.update_text("9")
 
+                # Switch input's append direction
                 if event.key == pygame.K_SPACE:
                     game.input.on_left = not game.input.on_left
                     game.inputappend_title.on_left = not game.inputappend_title.on_left
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:  # !!! TEMPORARY
-                    game.question.get_question()
+                # Submiting input
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    if game.question.answer == game.input.get_intinput():
+                        game.bg_color = game.bg_colors["correct"]
+                        game.time_remaining = 2
+                        game.bg_changed = True
+
+                        game.question.get_question()
+                        game.input.text = []
+                    else:
+                        game.bg_color = game.bg_colors["wrong"]
+                        game.time_remaining = 2
+                        game.bg_changed = True
 
         # Update
         game.timer.update_countdown()
+        game.update_background()
 
         # Update display
         redraw_game()

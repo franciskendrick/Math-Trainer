@@ -1,4 +1,5 @@
 from utils import NumberFont, clip_set_to_list_on_xaxis
+from math import sqrt
 import pygame
 import random
 import os
@@ -13,7 +14,24 @@ resources_path = os.path.abspath(
 
 
 class Question:
+    add = lambda _, q: q[0] + q[1] 
+    subtract = lambda _, q: q[0] - q[1]
+    multiply = lambda _, q: q[0] * q[1]
+    divide = lambda _, q: q[0] // q[1]
+    exponentiate = lambda _, q: q[0] ** q[1]
+    square_root = lambda _, q: int(sqrt(q))
+
     def __init__(self, game_type, difficulty):
+        # Solve
+        self.solve = {
+            "addition": self.add,
+            "subtraction": self.subtract,
+            "multiplication": self.multiply,
+            "division": self.divide,
+            "exponentiation": self.exponentiate,
+            "square_root": self.square_root
+        }
+
         # Game type
         gametype_switchcase = {
             "addition": Addition,
@@ -24,27 +42,29 @@ class Question:
             "square_root": SquareRoot 
         }
 
-        self.game_type = gametype_switchcase[game_type]()
+        self.game_type = game_type
+        self.generator = gametype_switchcase[game_type]()
 
         # Difficulty
         self.level = difficulty
         if game_type not in ["exponentiation", "square_root"]:
             self.level_switchcase = {
-                "1": self.game_type.level_1,
-                "2": self.game_type.level_2,
-                "3": self.game_type.level_3
+                "1": self.generator.level_1,
+                "2": self.generator.level_2,
+                "3": self.generator.level_3
             }
         else:
             self.level_switchcase = {
-                "1": self.game_type.level_1,
-                "2": self.game_type.level_2,
+                "1": self.generator.level_1,
+                "2": self.generator.level_2,
             }
 
     def draw(self, display):
-        self.game_type.draw(display, self.level, self.question)
+        self.generator.draw(display, self.level, self.question)
 
     def get_question(self):
         self.question = self.level_switchcase[self.level]()
+        self.answer = self.solve[self.game_type](self.question)
 
 
 # Problem Generators

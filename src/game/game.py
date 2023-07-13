@@ -5,15 +5,28 @@ from .timer import Timer
 from .pause import Pause
 from .input import Input
 import pygame
+import time
 
 pygame.init()
 
 
 class Game(BaseMain):
     display_size_divider = 2.5
+    bg_colors = {
+        "correct": (208, 218, 145),
+        "wrong": (187, 108, 107),
+        "default": (235, 237, 233)
+    }
 
     def __init__(self):
         super().__init__()
+
+        # Background
+        self.bg_color = self.bg_colors["default"]
+        self.time_remaining = 2  # seconds
+        self.delay = 1000  # milliseconds
+        self.bg_changed = False
+        self.last_count = time.perf_counter()
 
         self.pause = Pause(self.display_size_divider)
         self.inputappend_title = InputAppendTitle()
@@ -27,7 +40,7 @@ class Game(BaseMain):
         
     def draw(self, display):
         # Fill background
-        self.draw_background()
+        self.draw_background(bgcolor=self.bg_color)
 
         # Draw elements
         self.question.draw(self.display)
@@ -39,3 +52,14 @@ class Game(BaseMain):
 
         # Blit menu's display to original display
         self.blit_to_display(display)
+
+    def update_background(self):
+        dt = time.perf_counter() - self.last_count
+        if self.bg_changed and dt * 1000 >= self.delay and self.time_remaining > 0:
+            self.time_remaining -= 1
+            self.last_count = time.perf_counter()
+        elif self.time_remaining == 0:
+            self.bg_color = self.bg_colors["default"]
+
+            self.time_remaining = 2  # seconds
+            self.bg_changed = False

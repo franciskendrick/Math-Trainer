@@ -59,6 +59,9 @@ class Input(NumberFont):
             else:  # append
                 self.text.append(num)
 
+    def get_intinput(self):
+        return int("".join(self.text))
+
     def format_text(self, num):
         max_digit = self.max_digits[self.difficulty]
         x = [" " for _ in range(max_digit - len(num))] + [num]
