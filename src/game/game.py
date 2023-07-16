@@ -23,7 +23,7 @@ class Game(BaseMain):
 
         # Background
         self.bg_color = self.bg_colors["default"]
-        self.time_remaining = 2  # seconds
+        self.time_remaining = 1  # seconds
         self.delay = 1000  # milliseconds
         self.bg_changed = False
         self.last_count = time.perf_counter()
@@ -61,5 +61,5 @@ class Game(BaseMain):
         elif self.time_remaining == 0:
             self.bg_color = self.bg_colors["default"]
 
-            self.time_remaining = 2  # seconds
+            self.time_remaining = 1  # seconds
             self.bg_changed = False
