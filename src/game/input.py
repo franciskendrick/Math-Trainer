@@ -71,5 +71,4 @@ class Input(NumberFont):
     def format_text(self, num):
         x = [" " for _ in range(self.max_digit - len(num))] + [num]
         x = "".join(x)
-
         return x
