@@ -2,6 +2,7 @@ from window import window
 from menu import Menu
 from difficulty import Difficulty
 from game import Game
+from gameover import Gameover
 import pygame
 import sys
 
@@ -33,6 +34,14 @@ def redraw_game():
 
 def redraw_pause():
     win.fill((235, 237, 233))
+
+    # Update display
+    pygame.display.update()
+
+
+def redraw_gameover():
+    # Draw gameover
+    gameover.draw(win)
 
     # Update display
     pygame.display.update()
@@ -201,6 +210,22 @@ def pause_loop():
     sys.exit()
 
 
+def gameover_loop():
+    run = True
+    while run:
+        # Event loop
+        for event in pygame.event.get():
+            # Quit detection
+            if event.type == pygame.QUIT:
+                run = False
+
+        # Update display
+        redraw_gameover()
+
+    pygame.quit()
+    sys.exit()
+
+
 # Execute
 if __name__ == "__main__":
     pygame.init()
@@ -213,6 +238,7 @@ if __name__ == "__main__":
     menu = Menu()
     difficulty = Difficulty()
     game = Game()
+    gameover = Gameover()
 
     # Execute
     menu_loop()

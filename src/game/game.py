@@ -50,7 +50,7 @@ class Game(BaseMain):
         self.pause.draw(self.display)
         self.input.draw(self.display)
 
-        # Blit menu's display to original display
+        # Blit display to original display
         self.blit_to_display(display)
 
     def update_background(self):

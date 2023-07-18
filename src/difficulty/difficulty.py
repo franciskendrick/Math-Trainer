@@ -25,5 +25,5 @@ class Difficulty(BaseMain):
         self.lvl_buttons.draw(self.display)
         self.back_button.draw(self.display)
 
-        # Blit menu's display to original display
+        # Blit display to original display
         self.blit_to_display(display)
