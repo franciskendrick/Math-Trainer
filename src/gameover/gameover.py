@@ -1,5 +1,6 @@
 from utils import BaseMain
 from .title import Title
+from .statistics import Statistics
 import pygame
 
 pygame.init()
@@ -12,6 +13,7 @@ class Gameover(BaseMain):
         super().__init__()
 
         self.title = Title()
+        self.statistics = Statistics()
 
     def draw(self, display):
         # Fill background
@@ -19,6 +21,7 @@ class Gameover(BaseMain):
 
         # Draw elements
         self.title.draw(self.display)
+        self.statistics.draw(self.display)
 
         # Blit display to original display
         self.blit_to_display(display)
