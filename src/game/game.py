@@ -11,7 +11,7 @@ pygame.init()
 
 
 class Game(BaseMain):
-    display_size_divider = 2.5
+    display_size_divider = 5
     bg_colors = {
         "correct": (208, 218, 145),
         "wrong": (187, 108, 107),

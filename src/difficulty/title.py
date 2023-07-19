@@ -25,7 +25,7 @@ class Title:
 
         self.title = [
             pygame.transform.scale(img, size),  # img
-            pygame.Rect((10, 20), img.get_size())  # rect
+            pygame.Rect((10, 20), size)  # rect
         ]
 
     def init_subtitle(self, game_type):
