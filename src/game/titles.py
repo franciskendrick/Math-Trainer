@@ -25,7 +25,8 @@ level_switchcase = {
 }
 
 spritesets = separate_sets_from_yaxis(
-    pygame.image.load(f"{resources_path}/titles.png"))
+    pygame.image.load(
+        "D:/Programming Projects/Repositories/Math-Trainer/resources/titles.png"))
 
 
 class GameTypeTitle:
@@ -52,9 +53,12 @@ class GameTypeTitle:
 class InputAppendTitle:
     def __init__(self):
         # Images
+        images = clip_set_to_list_on_xaxis(
+            pygame.image.load(f"{resources_path}/inputappend_titles.png"))
         order = ["left", "right"]
+
         self.images = {}
-        for image, name in zip(clip_set_to_list_on_xaxis(spritesets[2]), order):
+        for image, name in zip(images, order):
             wd, ht = image.get_size()
             self.images[name] = pygame.transform.scale(image, (wd * 2, ht * 2))
 

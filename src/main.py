@@ -241,4 +241,4 @@ if __name__ == "__main__":
     gameover = Gameover()
 
     # Execute
-    gameover_loop()
+    menu_loop()
