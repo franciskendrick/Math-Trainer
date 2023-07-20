@@ -210,7 +210,7 @@ def pause_loop():
     sys.exit()
 
 
-def gameover_loop():
+def gameover_loop(game_type, difficulty):
     run = True
     while run:
         # Event loop
@@ -218,6 +218,20 @@ def gameover_loop():
             # Quit detection
             if event.type == pygame.QUIT:
                 run = False
+
+            # Gameover buttons' down detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # left-clicked has been uped
+                button_pressed = gameover.buttons.button_down_detection()
+                if button_pressed == "restart":
+                    gameover.buttons.reset_overdetection()
+                    game_loop(game_type, difficulty)
+                elif button_pressed == "menu":
+                    gameover.buttons.reset_overdetection()
+                    menu_loop()
+
+            # Gameover buttons' over detection
+            if event.type == pygame.MOUSEMOTION:
+                gameover.buttons.button_over_detection()
 
         # Update display
         redraw_gameover()
@@ -241,4 +255,4 @@ if __name__ == "__main__":
     gameover = Gameover()
 
     # Execute
-    menu_loop()
+    gameover_loop("addition", "2")

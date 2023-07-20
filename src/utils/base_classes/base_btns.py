@@ -35,10 +35,12 @@ class BaseButtons:
     # Draw
     def draw(self, display):
         for button in self.buttons.values():
-            is_hovered, orig_img, hover_img, rect, _ = button
+            is_hovered, orig_img, hover_img, rect, hitbox = button
             img = hover_img if is_hovered else orig_img
 
+
             display.blit(img, rect)
+            pygame.draw.rect(display, (255, 0, 0), hitbox)
 
     # Action detection
     def button_down_detection(self):
