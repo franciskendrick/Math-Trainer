@@ -27,3 +27,11 @@ class Title:
 
     def draw(self, display):
         display.blit(*self.title)
+
+
+class HighScore:
+    def __init__(self):
+        pass
+
+    def draw(self, display):
+        pass

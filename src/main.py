@@ -211,6 +211,8 @@ def pause_loop():
 
 
 def gameover_loop(game_type, difficulty):
+    gameover.init(game_type, difficulty)
+
     run = True
     while run:
         # Event loop

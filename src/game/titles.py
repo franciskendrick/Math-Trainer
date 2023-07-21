@@ -27,6 +27,10 @@ level_switchcase = {
 spritesets = separate_sets_from_yaxis(
     pygame.image.load(
         "D:/Programming Projects/Repositories/Math-Trainer/resources/titles.png"))
+gt_positions = {
+    "type": (158, 4),
+    "level": (162, 11)
+}
 
 
 class GameTypeTitle:
@@ -39,15 +43,9 @@ class GameTypeTitle:
         self.type_idx = type_switchcase[game_type]
         self.lvl_idx = level_switchcase[difficulty]
         
-        # Positions
-        self.positions = {
-            "type": (158, 4),
-            "level": (162, 11)
-        }
-
-    def draw(self, display):
-        display.blit(self.type_imgs[self.type_idx], self.positions["type"])
-        display.blit(self.lvl_imgs[self.lvl_idx], self.positions["level"])
+    def draw(self, display, positions=gt_positions):
+        display.blit(self.type_imgs[self.type_idx], positions["type"])
+        display.blit(self.lvl_imgs[self.lvl_idx], positions["level"])
 
 
 class InputAppendTitle:
