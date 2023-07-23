@@ -15,7 +15,7 @@ class NumberFont:
     order = [
         "0", "1", "2", "3", "4",
         "5", "6", "7", "8", "9",
-        ":", ".", "%"
+        ":", ",", ".", "%"
     ]
     character_spacing = 1
 
@@ -45,16 +45,11 @@ class NumberFont:
                 character = self.characters[char]
 
                 # Resize
-                if enlarge != 1:
-                    # Resize character image
-                    wd, ht = character.get_size()
-                    character = pygame.transform.scale(
-                        character, (wd * enlarge, ht * enlarge))
+                wd, ht = character.get_size()
+                character = pygame.transform.scale(
+                    character, (wd * enlarge, ht * enlarge))
 
-                    # Resize character spacing
-                    spacing = self.character_spacing * enlarge
-                else:
-                    spacing = self.character_spacing
+                spacing = self.character_spacing * enlarge
 
                 # Blit to handle display
                 handle_display.blit(character, (x + x_offset, y))
@@ -67,3 +62,23 @@ class NumberFont:
 
         # Blit to display
         display.blit(handle_display, (0, 0))
+
+    def get_size(self, text, enlarge=1):
+        wd = 0
+        for i, char in enumerate(text, 1):
+            if char != " ":  # a number
+                # Get character image
+                character = self.characters[char]
+
+                # Resize
+                character_wd, _ = character.get_size()
+                character_wd = character_wd * enlarge
+                spacing = (self.character_spacing * enlarge) if len(text) > i else 0
+                    
+                # Add to width
+                wd += character_wd + spacing
+            else:  # a space
+                # Add to width
+                wd += (self.space + self.character_spacing) * enlarge
+
+        return (wd, 6 * enlarge)

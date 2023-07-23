@@ -1,6 +1,6 @@
 from utils import BaseMain
 from game import GameTypeTitle
-from .titles import Title
+from .titles import Title, HighScore
 from .statistics import Statistics
 from .buttons import Buttons
 import pygame
@@ -19,6 +19,7 @@ class Gameover(BaseMain):
         super().__init__()
 
         self.title = Title()
+        self.highscore = HighScore()
         self.statistics = Statistics()
         self.buttons = Buttons(self.display_size_divider)
 
@@ -30,11 +31,11 @@ class Gameover(BaseMain):
         self.draw_background()
 
         # Draw elements
+        self.gt_subtitle.draw(self.display, gt_positions)
+        self.highscore.draw(self.display)
         self.title.draw(self.display)
         self.statistics.draw(self.display)
         self.buttons.draw(self.display)
-        
-        self.gt_subtitle.draw(self.display, gt_positions)
 
         # Blit display to original display
         self.blit_to_display(display)

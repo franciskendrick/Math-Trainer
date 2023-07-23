@@ -1,4 +1,5 @@
-from utils import separate_sets_from_yaxis, clip_set_to_list_on_yaxis
+from utils import NumberFont, separate_sets_from_yaxis, clip_set_to_list_on_yaxis
+from window import window
 import pygame
 import os
 
@@ -29,9 +30,25 @@ class Title:
         display.blit(*self.title)
 
 
-class HighScore:
+class HighScore(NumberFont):
     def __init__(self):
-        pass
+        super().__init__()
+
+        self.title_img = clip_set_to_list_on_yaxis(spritesets[1])
+        self.title_size = (55, 6)
+
+        self.center_pos = (127, 55)
+
+        self.highscore = str(window.gameinfo_data["highscore"])
 
     def draw(self, display):
-        pass
+        # Title
+        score_size = self.get_size(self.highscore)
+        full_wd = self.title_size[0] + score_size[0]
+        pos = (self.center_pos[0] - (full_wd / 2), self.center_pos[1])
+
+        display.blit(self.title_img, pos)
+
+        # Score
+        pos = (pos[0] + 55 + 2, pos[1])
+        self.render_font(display, self.highscore, pos)
