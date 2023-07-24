@@ -1,3 +1,4 @@
+from utils import palette_swap
 from .font_to_dict import clip_font_to_dict
 import pygame
 import os
@@ -17,32 +18,48 @@ class NumberFont:
         "5", "6", "7", "8", "9",
         ":", ",", ".", "%"
     ]
+    colors = {
+        "black": (9, 10, 20),
+        "green": (70, 130, 50),
+        "red": (165, 48, 48)
+    }
     character_spacing = 1
 
     def __init__(self):
         # Font spriteset
         font_set = pygame.image.load(
             f"{resources_path}/number_font.png")
-        font_set.convert()
 
-        # Get characters in a dictionary form
-        self.characters = clip_font_to_dict(
-            font_set, self.order)
+        self.characters = {}
+        for (name, color) in self.colors.items():
+            # Get font set in different colors
+            # if name != "black":
+            palette = {
+                self.colors["black"]: color
+            }
+            font_set_ = palette_swap(font_set.convert(), palette)
+
+            # Get characters in a dictionary form
+            self.characters[name] = clip_font_to_dict(
+                font_set_, self.order)
         
         # Space
         self.space = 5
 
-    def render_font(self, display, text, pos, enlarge=1):
+    def render_font(self, display, text, pos, enlarge=1, color="black"):
         handle_display = pygame.Surface(
             display.get_size(), pygame.SRCALPHA)
         x, y = pos
         x_offset = 0
 
+        # Pick color
+        characters = self.characters[color]
+
         # Loop over every character in text
         for char in text:
             if char != " ":  # a number
                 # Get character image
-                character = self.characters[char]
+                character = characters[char]
 
                 # Resize
                 wd, ht = character.get_size()
@@ -64,11 +81,12 @@ class NumberFont:
         display.blit(handle_display, (0, 0))
 
     def get_size(self, text, enlarge=1):
+        characters = self.characters["black"]
         wd = 0
         for i, char in enumerate(text, 1):
             if char != " ":  # a number
                 # Get character image
-                character = self.characters[char]
+                character = characters[char]
 
                 # Resize
                 character_wd, _ = character.get_size()

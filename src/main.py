@@ -210,8 +210,15 @@ def pause_loop():
     sys.exit()
 
 
-def gameover_loop(game_type, difficulty):
+def gameover_loop(game_type, difficulty, stats):
     gameover.init(game_type, difficulty)
+    stats = {
+        "score": 50,
+        "key_presses": 200,
+        "wrg_ans": 2,
+        "mistakes": 18
+    }
+    gameover.statistics.init_stats(stats)
 
     run = True
     while run:
@@ -257,5 +264,5 @@ if __name__ == "__main__":
     gameover = Gameover()
 
     # Execute
-    gameover_loop("addition", "2")
+    gameover_loop("addition", "2", "")
     # menu_loop()
