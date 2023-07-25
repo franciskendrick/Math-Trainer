@@ -56,13 +56,19 @@ class Input(NumberFont):
         if self.on_left:
             if num == "BS" and len(self.text) > 0:
                 self.text.pop(0)
+                return True
             elif num != "BS" and len(self.text) < self.max_digit:
                 self.text.insert(0, num)
+                return True
         else:
             if num == "BS" and len(self.text) > 0:
                 self.text.pop(-1)
+                return True
             elif num != "BS" and len(self.text) < self.max_digit: 
                 self.text.append(num)
+                return True
+            
+        return False
                 
     def get_intinput(self):
         return int("".join(self.text))

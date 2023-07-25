@@ -34,6 +34,7 @@ class Statistics(NumberFont):
         self.lines = [((23, i), (232, i)) for i in range(79, 189+1, 22)]
 
         # Statistics
+        self.stats_order = ("ans_acc", "key_acc", "score", "wrg_ans", "mistakes")
         self.stats_positions = {
             "ans_acc": (113, 85),
             "key_acc": (113, 107),
@@ -42,21 +43,26 @@ class Statistics(NumberFont):
             "mistakes": (129, 173)
         }
         self.stats_colors = {
-            "ans_acc": "green",
-            "key_acc": "green",
             "score": "green",
             "wrg_ans": "red",
             "mistakes": "red"
         }
 
     def init_stats(self, stats):
-        self.stats = {}
+        ans_acc = self.get_accuracy(stats["score"], stats["wrg_ans"])
+        key_acc = self.get_accuracy(stats["key_presses"], stats["mistakes"])
 
-        self.stats["ans_acc"] = self.get_accuracy(stats["score"], stats["wrg_ans"])
-        self.stats["key_acc"] = self.get_accuracy(stats["key_presses"], stats["mistakes"])
+        # Text
+        self.stats = {}
+        self.stats["ans_acc"] = f"{ans_acc}%" 
+        self.stats["key_acc"] = f"{key_acc}%"
         self.stats["score"] = str(stats["score"])
         self.stats["wrg_ans"] = str(stats["wrg_ans"])
         self.stats["mistakes"] = str(stats["mistakes"])
+
+        # Color
+        self.stats_colors["ans_acc"] = "red" if ans_acc <= 0 else "green"
+        self.stats_colors["key_acc"] = "red" if key_acc <= 0 else "green"
 
     def draw(self, display):
         for title in self.titles:
@@ -65,10 +71,18 @@ class Statistics(NumberFont):
         for (start_pos, end_pos) in self.lines:
             pygame.draw.line(display, (199, 207, 204), start_pos, end_pos, 2)
 
-        for (text, pos, color) in zip(self.stats.values(), self.stats_positions.values(), self.stats_colors.values()):
+        for name in self.stats_order:
+            text = self.stats[name]
+            pos = self.stats_positions[name]
+            color = self.stats_colors[name]
+            
             self.render_font(display, text, pos, enlarge=2, color=color)
 
     def get_accuracy(self, observed_value, mistakes):
-        true_value = observed_value - mistakes
-        accuracy = (100 - ((observed_value - true_value) / true_value * 100))
-        return f"{round(accuracy, 2)}%"
+        try:
+            # %A = 100 – | (Tv-Ov) / Tv * 100 |
+            true_value = observed_value - mistakes
+            accuracy = 100 - abs((true_value - observed_value) / true_value * 100)
+            return round(accuracy, 2)
+        except ZeroDivisionError:
+            return 0

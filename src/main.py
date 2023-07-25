@@ -7,6 +7,20 @@ import pygame
 import sys
 
 
+# Functions
+def get_key_pressed(event):
+    if event.key == pygame.K_0 or event.key == pygame.K_KP_0: return "0"
+    if event.key == pygame.K_1 or event.key == pygame.K_KP_1: return "1"
+    if event.key == pygame.K_2 or event.key == pygame.K_KP_2: return "2"
+    if event.key == pygame.K_3 or event.key == pygame.K_KP_3: return "3"
+    if event.key == pygame.K_4 or event.key == pygame.K_KP_4: return "4"
+    if event.key == pygame.K_5 or event.key == pygame.K_KP_5: return "5"
+    if event.key == pygame.K_6 or event.key == pygame.K_KP_6: return "6"
+    if event.key == pygame.K_7 or event.key == pygame.K_KP_7: return "7"
+    if event.key == pygame.K_8 or event.key == pygame.K_KP_8: return "8"
+    if event.key == pygame.K_9 or event.key == pygame.K_KP_9: return "9"
+
+
 # Redraws
 def redraw_menu():
     # Draw menu
@@ -117,6 +131,12 @@ def difficulty_loop(game_type):
 def game_loop(game_type, difficulty):
     game.init(game_type, difficulty)
     game.question.get_question()
+    stats = {
+        "score": 0,
+        "key_presses": 0,
+        "wrg_ans": 0,
+        "mistakes": 0
+    }
 
     # Loop
     run = True
@@ -140,29 +160,19 @@ def game_loop(game_type, difficulty):
 
             # Input's key detection
             if event.type == pygame.KEYDOWN:
-                # Appending/popping input's text list
+                # Popping at input's text list
                 if event.key == pygame.K_BACKSPACE:
                     game.input.update_text("BS")
-                if event.key == pygame.K_0 or event.key == pygame.K_KP_0:
-                    game.input.update_text("0")
-                if event.key == pygame.K_1 or event.key == pygame.K_KP_1:
-                    game.input.update_text("1")
-                if event.key == pygame.K_2 or event.key == pygame.K_KP_2:
-                    game.input.update_text("2")
-                if event.key == pygame.K_3 or event.key == pygame.K_KP_3:
-                    game.input.update_text("3")
-                if event.key == pygame.K_4 or event.key == pygame.K_KP_4:
-                    game.input.update_text("4")
-                if event.key == pygame.K_5 or event.key == pygame.K_KP_5:
-                    game.input.update_text("5")
-                if event.key == pygame.K_6 or event.key == pygame.K_KP_6:
-                    game.input.update_text("6")
-                if event.key == pygame.K_7 or event.key == pygame.K_KP_7:
-                    game.input.update_text("7")
-                if event.key == pygame.K_8 or event.key == pygame.K_KP_8:
-                    game.input.update_text("8")
-                if event.key == pygame.K_9 or event.key == pygame.K_KP_9:
-                    game.input.update_text("9")
+                    stats["mistakes"] += 1
+
+                # Appending to input's text list
+                key = get_key_pressed(event)
+                if key != None:
+                    efficient_press = game.input.update_text(key)
+                    if efficient_press:
+                        stats["key_presses"] += 1
+                    else:
+                        stats["mistakes"] += 1
 
                 # Switch input's append direction
                 if event.key == pygame.K_SPACE:
@@ -178,14 +188,22 @@ def game_loop(game_type, difficulty):
 
                         game.question.get_question()
                         game.input.text = []
+
+                        stats["score"] += 1
                     else:
                         game.bg_color = game.bg_colors["wrong"]
                         game.time_remaining = 2
                         game.bg_changed = True
 
+                        stats["wrg_ans"] += 1
+
         # Update
         game.timer.update_countdown()
         game.update_background()
+
+        # Redirect to gameover loop
+        if game.timer.time_remaining <= 0:
+            gameover_loop(game_type, difficulty, stats)
 
         # Update display
         redraw_game()
@@ -212,12 +230,6 @@ def pause_loop():
 
 def gameover_loop(game_type, difficulty, stats):
     gameover.init(game_type, difficulty)
-    stats = {
-        "score": 50,
-        "key_presses": 200,
-        "wrg_ans": 2,
-        "mistakes": 18
-    }
     gameover.statistics.init_stats(stats)
 
     run = True
@@ -264,5 +276,5 @@ if __name__ == "__main__":
     gameover = Gameover()
 
     # Execute
-    gameover_loop("addition", "2", "")
-    # menu_loop()
+    # gameover_loop("addition", "2", "")
+    menu_loop()

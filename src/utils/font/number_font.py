@@ -16,7 +16,7 @@ class NumberFont:
     order = [
         "0", "1", "2", "3", "4",
         "5", "6", "7", "8", "9",
-        ":", ",", ".", "%"
+        ":", ",", ".", "-", "%"
     ]
     colors = {
         "black": (9, 10, 20),
@@ -33,7 +33,6 @@ class NumberFont:
         self.characters = {}
         for (name, color) in self.colors.items():
             # Get font set in different colors
-            # if name != "black":
             palette = {
                 self.colors["black"]: color
             }
