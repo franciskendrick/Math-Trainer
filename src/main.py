@@ -233,7 +233,7 @@ if __name__ == "__main__":
     pygame.init()
 
     # Initialize window
-    win = pygame.display.set_mode(window.rect.size)  # !!! TEMPORARY
+    win = pygame.display.set_mode(window.rect.size)
     pygame.display.set_caption("Math Trainer")
 
     # Initialize windows

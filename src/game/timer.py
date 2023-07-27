@@ -20,9 +20,9 @@ class Timer(NumberFont):
         )
 
         # Timer
-        self.time_remaining = 300  # seconds (5 mins)
+        self.time_remaining = 150  # seconds (2.5 mins)
         self.delay = 1000  # milliseconds
-        self.time_text = "5:00"
+        self.time_text = "2:30"
 
         self.time_pos = (110, 4)
 
