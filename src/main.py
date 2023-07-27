@@ -185,6 +185,7 @@ def game_loop(game_type, difficulty):
 
         # Redirect to gameover loop
         if game.timer.time_remaining <= 0:
+            game.reset_background()
             gameover_loop(game_type, difficulty, stats)
 
         # Update display

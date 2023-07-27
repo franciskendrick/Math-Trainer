@@ -60,3 +60,6 @@ class Game(BaseMain):
 
             self.time_remaining = 1  # seconds
             self.bg_changed = False
+
+    def reset_background(self):
+        self.bg_color = self.bg_colors["default"]
