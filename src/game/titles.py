@@ -47,6 +47,12 @@ class GameTypeTitle:
         display.blit(self.type_imgs[self.type_idx], positions["type"])
         display.blit(self.lvl_imgs[self.lvl_idx], positions["level"])
 
+    def get_img_sizes(self):
+        type_size = self.type_imgs[self.type_idx].get_size()
+        lvl_size = self.lvl_imgs[self.lvl_idx].get_size()
+
+        return type_size, lvl_size
+
 
 class InputAppendTitle:
     def __init__(self):

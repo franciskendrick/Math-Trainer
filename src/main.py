@@ -242,5 +242,4 @@ if __name__ == "__main__":
     gameover = Gameover()
 
     # Execute
-    # gameover_loop("addition", "2", "")
     menu_loop()

@@ -1,15 +1,11 @@
 from utils import BaseMain
 from game import GameTypeTitle
-from .titles import Title, HighScore
+from .titles import Title
 from .statistics import Statistics
 from .buttons import Buttons
 import pygame
 
 pygame.init()
-gt_positions = {
-    "type": (4, 4),
-    "level": (8, 11)
-}
 
 
 class Gameover(BaseMain):
@@ -19,21 +15,38 @@ class Gameover(BaseMain):
         super().__init__()
 
         self.title = Title()
-        self.highscore = HighScore()
         self.statistics = Statistics()
         self.buttons = Buttons(self.display_size_divider)
 
     def init(self, game_type, difficulty):
         self.gt_subtitle = GameTypeTitle(game_type, difficulty)
 
+        center_pos = (127, 55)
+        type_size, lvl_size = self.gt_subtitle.get_img_sizes()
+
+        full_wd = type_size[0] + 6 + lvl_size[0]
+        
+        type_pos = (center_pos[0] - (full_wd / 2), center_pos[1])
+        dot_pos = (type_pos[0] + type_size[0] + 2, center_pos[1] + 2)
+        level_pos = (dot_pos[0] + 2 + 2, center_pos[1])
+
+        self.gt_positions = {
+            "type": type_pos,
+            "level": level_pos,
+            "dot": dot_pos
+        }
+
     def draw(self, display):
         # Fill background
         self.draw_background()
 
         # Draw elements
-        self.gt_subtitle.draw(self.display, gt_positions)
-        self.highscore.draw(self.display)
         self.title.draw(self.display)
+
+        self.gt_subtitle.draw(self.display, self.gt_positions)
+        rect = pygame.Rect(*self.gt_positions["dot"], 2, 2)
+        pygame.draw.rect(self.display, (9, 10, 20), rect)
+
         self.statistics.draw(self.display)
         self.buttons.draw(self.display)
 
