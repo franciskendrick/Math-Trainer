@@ -46,13 +46,6 @@ def redraw_game():
     pygame.display.update()
 
 
-def redraw_pause():
-    win.fill((235, 237, 233))
-
-    # Update display
-    pygame.display.update()
-
-
 def redraw_gameover():
     # Draw gameover
     gameover.draw(win)
@@ -147,17 +140,6 @@ def game_loop(game_type, difficulty):
             if event.type == pygame.QUIT:
                 run = False
 
-            # Pause's down detection
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:  # left-clicked has been uped
-                button_pressed = game.pause.button_down_detection()
-                if button_pressed:
-                    game.pause.reset_overdetection()
-                    pause_loop()
-
-            # Pause's over detection
-            if event.type == pygame.MOUSEMOTION:
-                game.pause.button_over_detection()
-
             # Input's key detection
             if event.type == pygame.KEYDOWN:
                 # Popping at input's text list
@@ -207,22 +189,6 @@ def game_loop(game_type, difficulty):
 
         # Update display
         redraw_game()
-
-    pygame.quit()
-    sys.exit()
-
-
-def pause_loop():
-    run = True
-    while run:
-        # Event loop
-        for event in pygame.event.get():
-            # Quit detection
-            if event.type == pygame.QUIT:
-                run = False
-
-        # Update display
-        redraw_pause()
 
     pygame.quit()
     sys.exit()

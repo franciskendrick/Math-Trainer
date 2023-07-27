@@ -2,7 +2,6 @@ from utils import BaseMain
 from .question import Question
 from .titles import GameTypeTitle, InputAppendTitle
 from .timer import Timer
-from .pause import Pause
 from .input import Input
 import pygame
 import time
@@ -28,7 +27,6 @@ class Game(BaseMain):
         self.bg_changed = False
         self.last_count = time.perf_counter()
 
-        self.pause = Pause(self.display_size_divider)
         self.inputappend_title = InputAppendTitle()
 
     def init(self, game_type, difficulty):
@@ -47,7 +45,6 @@ class Game(BaseMain):
         self.gametype_title.draw(self.display)
         self.inputappend_title.draw(self.display)
         self.timer.draw(self.display)
-        self.pause.draw(self.display)
         self.input.draw(self.display)
 
         # Blit display to original display
