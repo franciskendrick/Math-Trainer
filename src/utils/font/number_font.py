@@ -21,6 +21,7 @@ class NumberFont:
     colors = {
         "black": (9, 10, 20),
         "green": (70, 130, 50),
+        "orange": (218, 134, 62),
         "red": (165, 48, 48)
     }
     character_spacing = 1

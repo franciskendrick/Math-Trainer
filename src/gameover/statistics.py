@@ -61,8 +61,8 @@ class Statistics(NumberFont):
         self.stats["mistakes"] = str(stats["mistakes"])
 
         # Color
-        self.stats_colors["ans_acc"] = "red" if ans_acc <= 0 else "green"
-        self.stats_colors["key_acc"] = "red" if key_acc <= 0 else "green"
+        self.stats_colors["ans_acc"] = self.get_fontcolor(ans_acc)
+        self.stats_colors["key_acc"] = self.get_fontcolor(key_acc)
 
     def draw(self, display):
         for title in self.titles:
@@ -86,3 +86,8 @@ class Statistics(NumberFont):
             return round(accuracy, 2)
         except ZeroDivisionError:
             return 0
+
+    def get_fontcolor(self, acc):
+        if acc <= 0: return "red"
+        if acc < 90: return "orange"
+        if acc >= 90: return "green"
