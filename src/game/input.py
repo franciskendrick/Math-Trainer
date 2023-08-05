@@ -71,7 +71,10 @@ class Input(NumberFont):
         return False
                 
     def get_intinput(self):
-        return int("".join(self.text))
+        try:
+            return int("".join(self.text))
+        except ValueError:
+            return ""
 
     # Format
     def format_text(self, num):
