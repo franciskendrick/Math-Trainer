@@ -165,8 +165,9 @@ class Subtraction(Draw):
 
     # Question generator
     def level_1(self):
-        x = random.randint(0, 18)
-        y = random.randint(0, 9)
+        x = random.randint(1, 18)
+        limit = 9 if x > 9 else x-1
+        y = random.randint(0, limit)
         return x, y
 
     def level_2(self):
