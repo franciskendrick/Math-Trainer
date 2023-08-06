@@ -6,6 +6,7 @@ from gameover import Gameover
 import pygame
 import sys
 
+7
 
 # Functions
 def get_key_pressed(event):
